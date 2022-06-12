@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<script>
+		function isLogin(){
+			if (localStorage.getItem('userData') != null) {
+				afterLogin();
+			}else{
+				beforeLogin();
+			}
+		}
+		function afterLogin(){
+			let login=document.getElementById("login");
+			login.innerHTML="登出";
+			login.setAttribute("href","./index.html");
+			login.setAttribute("onclick","logout()");
+			let topNavigation=document.getElementById("topNavigation");
+			let profile=document.createElement("a");
+			topNavigation.appendChild(profile);
+			profile.setAttribute("href","./profile.html");
+			profile.setAttribute("id","profile");
+			profile.innerHTML="個人資料";
+			let history=document.createElement("a");
+			topNavigation.appendChild(history);
+			history.setAttribute("href","./history.html");
+			history.setAttribute("id","history");
+			history.innerHTML="紀錄";
+		}
+		function beforeLogin(){
+			let topNavigation=document.getElementById("topNavigation");
+			let profile=document.getElementById("profile");
+			profile.remove();
+			let history=document.getElementById("history");
+			history.remove();
+			let login=document.getElementById("login");
+			login.innerHTML="登入";
+			login.setAttribute("href","./login.html");
+		}
+		function logout(){
+			localStorage.clear();
+			isLogin();
+		}
+		function genShortUrl(){
+			let url = document.getElementById('urlInput').value;
+			let userData = localStorage.getItem('userData');
+			let uid = userData == null ? -1 : JSON.parse(userData).uid;
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function() {
+				const shortUrl = JSON.parse(this.responseText);
+				//改為在前端顯示縮短後的網址
+				alert('your short url is:\n' + shortUrl.ip + '/' + shortUrl.shortUrl);
+			}
+			xhttp.open("POST", "/gen");
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("uid="+uid+"&url="+url);
+		}
+	</script>
+</head>
+<body>
+	<div class="topnav" id="topNavigation">
+  		<a class="active" href="./index.html">首頁</a>
+  		<a href="./login.html" id="login">登入</a>
+  		<a href="./register.html">註冊</a>
+	</div>
+
+	<h1 align="center"><img src="./media/logo.png" class="logo">打造自己的短網址<img src="./media/logo.png" class="logo"></h1>
+	
+	<div id="urlBox">
+		<input type="url" id="urlInput" placeholder="輸入你想縮短的網址">
+		<input type="submit" value="縮短" onclick="genShortUrl()">
+	</div>
+</body>
+<script>
+	isLogin();
+</script>
+</html>

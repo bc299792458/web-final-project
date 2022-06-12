@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="topnav">
+  		<a href="./index.html">首頁</a>
+  		<a href="./login.html" id="login" onclick="localStorage.clear()">登出</a>
+  		<a href="./register.html">註冊</a>
+  		<a href="./profile.html">個人資料</a>
+  		<a class="active" href="./history.html">紀錄</a>
+	</div>
+	<table id="history" class="table">
+		<caption id="cap">您已縮短了0個網址</caption>
+		<tr><th>編號<th>原網址<th>短網址<th>日期</tr>
+	</table>
+</body>
+<script>
+	function getHistory(){
+		const xhttp = new XMLHttpRequest();
+		xhttp.onload = function() {
+			const urls = JSON.parse(this.responseText);
+			document.getElementById('cap').innerHTML = '您已縮短了' + urls.length + '個網址';
+			let table = document.getElementById('history');
+			for(let i = 0; i < urls.length; i++){
+				// table.innerHTML += '<tr>';
+				// table.innerHTML += '<td>' + urls[i].id;
+				// table.innerHTML += '<td>' + urls[i].origin;
+				// table.innerHTML += '<td>' + urls[i].short;
+				// table.innerHTML += '<td>' + urls[i].date;
+				// table.innerHTML += '</tr>';
+				let row = document.createElement("tr");
+				let id = document.createElement('th');
+				id.innerHTML = urls[i].id;
+				row.appendChild(id);
+				let origin = document.createElement('th');
+				let a=document.createElement("a");
+				a.innerHTML = urls[i].origin;
+				a.setAttribute("href",urls[i].origin);
+				origin.appendChild(a);
+				row.appendChild(origin);
+				let short = document.createElement('th');
+				s=document.createElement("a");
+				s.innerHTML = "http://140.116.154.65:56543/"+urls[i].short;
+				s.setAttribute("href","http://140.116.154.65:56543/"+urls[i].short);
+				short.appendChild(s);
+				row.appendChild(short);
+				let date = document.createElement('th');
+				date.innerHTML = urls[i].date;
+				row.appendChild(date);
+				document.getElementById('history').appendChild(row);
+			}
+		}
+		const userData = localStorage.getItem('userData');
+		const uid = userData == null ? -1 : JSON.parse(userData).uid;
+		xhttp.open("GET", "/history/" + uid);
+		xhttp.send();
+	}
+	getHistory();
+</script>
+</html>

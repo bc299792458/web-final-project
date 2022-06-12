@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>註冊</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <script>
+        function isLogin(loginStatus){
+            if (localStorage.getItem('userData') != null) {
+                afterLogin();
+            }else{
+                beforeLogin();
+            }
+        }
+        function afterLogin(){
+            let login=document.getElementById("login");
+            login.innerHTML="登出";
+            login.setAttribute("href","./index.html");
+            login.setAttribute("onclick","logout()");
+            let topNavigation=document.getElementById("topNavigation");
+            let profile=document.createElement("a");
+            topNavigation.appendChild(profile);
+            profile.setAttribute("href","./profile.html");
+            profile.setAttribute("id","profile");
+            profile.innerHTML="個人資料";
+            let history=document.createElement("a");
+            topNavigation.appendChild(history);
+            history.setAttribute("href","./history.html");
+            history.setAttribute("id","history");
+            history.innerHTML="紀錄";
+        }
+        function beforeLogin(){
+            let topNavigation=document.getElementById("topNavigation");
+            let profile=document.getElementById("profile");
+            profile.remove();
+            let history=document.getElementById("history");
+            history.remove();
+            let login=document.getElementById("login");
+            login.innerHTML="登入";
+            login.setAttribute("href","./login.html");
+        }
+        function logout(){
+            localStorage.clear();
+			isLogin();
+        }
+        function registerHandler(){
+            const name = document.getElementById('name').value;
+            const account = document.getElementById('account').value;
+			const password = document.getElementById('Password').value;
+            const password2 = document.getElementById('Password2').value;
+            const email = document.getElementById('email').value;
+            const birthDay = document.getElementById('bd').value;
+            console.log(account);
+            if(password !== password2){
+                alert('Two different password');
+                return false;
+            }
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function() {
+				const status = this.responseText;
+				const res = JSON.parse(this.responseText);
+				if(res.status == 0) {
+                    alert('register success');
+                    const userData = localStorage.getItem('userData');
+                    if(userData == null)
+                        window.location = "login.html";
+                    else
+                        window.location = "profile.html";
+                }
+				if(res.status == 1) alert('account already exist');
+			}
+			xhttp.open("POST", "/account/register");
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send('name=' + name + '&account=' + account +
+            '&password=' + password + '&email=' + email + '&birthday=' + birthDay);
+			return false;
+        }
+    </script>    
+</head>
+<body>
+    <div class="topnav" id="topNavigation">
+        <a href="./index.html">首頁</a>
+        <a href="./login.html" id="login">登入</a>
+        <a class="active" href="./register.html">註冊</a>
+    </div>
+    <h1 align="center">使用者註冊</h1>
+    <h2 align="center">
+    <form name="register" onsubmit="registerHandler(); return false;">
+        <table align="center" bgcolor="#FFCC99" cellpadding="5" cellspacing="1" border="1" class="loginTable">
+            <tr>
+                <td class="td"><font size="5">使用者名稱:</font></td>
+                <td><input type="text" id="account" name="account" size="15" class="input"></td>
+            </tr>
+            <tr>
+                <td class="td"><font size="5">密碼:</font></td>
+                <td><input type="password" id="Password" name="Password" size="15" class="input"></td>
+            </tr>
+            <tr>
+                <td class="td"><font size="5">再輸入一次密碼:</font></td>
+                <td><input type="password" id="Password2" name="Password2" size="15" class="input"></td>
+            </tr>
+            <tr>
+                <td class="td"><font size="5">姓名:</font></td>
+                <td><input type="text" id="name" name="name" size="15" class="input"></td>
+            </tr>
+            <tr>
+                <td class="td"><font size="5">email:</font></td>
+                <td><input type="text" id="email" name="email" size="15" class="input"></td>
+            </tr>
+            <tr>
+                <td class="td"><font size="5">生日:</font></td>
+                <td><input type="date" id="bd" name="bd" size="15" class="input"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="註冊"></td>
+            </tr> 
+        </table>
+    </form>
+    </h2>
+</body>
+<script>
+    isLogin();
+</script>
+</html>

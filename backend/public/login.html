@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>登入</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <script>
+		function loginHadler(){
+			const account = document.getElementById('account').value;
+			const password = document.getElementById('password').value;
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function() {
+				const status = this.responseText;
+				console.log(this.responseText);
+				const res = JSON.parse(this.responseText);
+				if(res.status == 1) alert('account not found');
+				if(res.status == 2) alert('wrong password');
+				if(res.status == 0) {
+					localStorage.setItem('userData', JSON.stringify(res.data));
+					alert('login success');
+					window.location = "index.html";
+				}
+			}
+			xhttp.open("POST", "/account/login");
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send('account=' + account + '&' + 'password=' + password);
+			return false;
+		}
+		
+    </script>
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="./index.html">首頁</a>
+      <a class="active" href="./login.html">登入</a>
+      <a href="./register.html">註冊</a>
+    </div>
+    <h1 align="center">使用者登入</h1>
+    <h2 align="center">
+    <form name="login" onsubmit="loginHadler(); return false;">
+      <table  align="center" RULES=ROWS cellspacing="1" cellpadding="5" border="1" bgcolor="#FFCC99" class="loginTable">
+        <tr>
+          <td width="16%" align="right">*帳號:</td>
+          <td width="84%"><input type="text" id="account" name="account" class="input"></td>
+        </tr>
+        <tr>
+          <td width="16%" align="right">*密碼:</td>
+          <td width="84%"><input type="password" id="password" name="password" class="input"></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center"><p><input type="submit" name="login" value="登入"></p></td>
+        </tr>
+      </table>
+     
+      
+    </form>
+    <a href="forgetPassword.html"><p align="center">忘記密碼？</p></a>
+    </h2>
+  </body>
+</html>

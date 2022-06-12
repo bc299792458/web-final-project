@@ -1,0 +1,105 @@
+/*topNavigation.css*/
+/* 導覽列背景顏色 */
+.topnav {
+	background-color: #333;
+	overflow: hidden;
+}
+
+/* 項目CSS */
+.topnav a {
+	float: left;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+/* 項目hover改變顏色 */
+.topnav a:hover {
+	background-color: #ddd;
+	color: black;
+}
+
+/* 現在在哪個項目變顏色 */
+.topnav a.active {
+	background-color: #04AA6D;
+	color: white;
+}
+
+/*bodyBackground.css*/
+body{
+	background-image: url(./media/parch3.jpg); 
+	background-repeat: repeat;
+}
+
+/*table.css*/
+.table{
+	border-color: #9999ff; 
+	border-width: 5px; 
+	border-radius: 15px;
+	border: dotted black 2px; 
+	margin: 5px; 
+	padding: 15px 5px;
+	background-image: url(./media/marblebeige.jpg); 
+	background-repeat: repeat;
+	position: absolute;
+	left:50%;
+	transform: translate(-50%, 0);
+}
+caption{
+	background-image: url(./media/g3sf11.gif); 
+	background-repeat: repeat;
+	font-family: 'IBM Plex Sans Arabic', sans-serif;
+	font-size: 35px; 
+	color: #99ff99; 
+	border-style: outset; 
+	border-width: 5px; 
+	border-color: #ff9999; 
+	border-radius: 15px
+} 
+.ttd{
+	padding: 5px 30px;
+	border: 1px black solid;
+}
+
+/*index.html*/
+/*中間輸入網址CSS*/
+#urlBox{			
+	position: absolute;
+	top: 30%;
+	left:50%;
+	transform: translate(-50%, -50%);
+}
+#urlInput{
+	width: 600px;
+	height: 50px;
+}
+/*標題圖片*/
+.logo{
+	width: 42px;
+	height: 42px;
+}
+
+/*login.html*/
+.input{
+    width: 400px;
+    height: 25px;
+}
+
+.loginTable{
+	border-top:0px #FFFFFF solid;
+	border-right:0px #FFFFFF solid;
+	border-left:0px #FFFFFF solid;
+}
+
+/*register.html*/
+.td{
+    text-align: right;
+}
+
+/*history.html*/
+th{
+	padding: 5px 30px;
+	border: 1px black solid;
+}
